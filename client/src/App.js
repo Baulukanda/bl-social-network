@@ -1,15 +1,24 @@
+import { Router } from "@reach/router";
 import { useEffect, useState } from "react";
+import Quote from "./Quote";
+import Quotes from "./Quotes";
 const API_URL = process.env.REACT_APP_API;
 
+
+
 function App() {
-  const [data, setData] = useState([]);
+  const [quotes, setQuote] = useState([]);
+
+  function getQuote(id) {
+    return quotes.find((quote) => quote.id === parseInt(id));
+  }
 
   useEffect(() => {
     async function getData() {
-      const url = `${API_URL}/recipes`;
+      const url = `${API_URL}/quotes`;
       const response = await fetch(url);
       const data = await response.json();
-      setData(data);
+      setQuote(data)
     }
     getData();
   }, []);
@@ -18,15 +27,11 @@ function App() {
     <>
       <h1>MERN App!</h1>
       <p>Data from server:</p>
-      <ul>
-        {data.map((item) => {
-          return (
-            <li key={item._id}>
-              <strong>{item.title}</strong> (<code>{item._id}</code>)
-            </li>
-          );
-        })}
-      </ul>
+      <Router>
+          <Quotes path="/" data={quotes}></Quotes>
+          <Quote path="/quote/:id" getQuote={getQuote}></Quote>
+      </Router>
+      
     </>
   );
 }
