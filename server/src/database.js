@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import Quote from "./models/quote.js";
 
-async function connectDatabase() {
+export async function connectDatabase() {
   const connectionString = process.env.MONGODB_URL;
 
   if (!connectionString) {
@@ -15,4 +16,28 @@ async function connectDatabase() {
   });
 }
 
-export default connectDatabase;
+export async function seedDatabase() {
+  const quoteCount = await Quote.countDocuments();
+
+  if (quoteCount === 0) {
+    const defaultQuotes = [
+      {
+        title: "this is a test quoute 1",
+        author: "Peter"
+      },
+      {
+        title: "this is a test quoute 2",
+        author: "Bau"
+      },
+      {
+        title: "this is a test quoute 3",
+        author: "John"
+      }
+    ]
+    console.log("seeding database with %d quotes", defaultQuotes.length);
+    await Quote.insertMany(defaultQuotes);
+  } else {
+    console.log("database already has content, not seeding")
+  }
+}
+
