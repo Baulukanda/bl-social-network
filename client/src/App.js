@@ -10,7 +10,7 @@ function App() {
   const [quotes, setQuote] = useState([]);
 
   function getQuote(id) {
-    return quotes.find((quote) => quote.id === parseInt(id));
+    return quotes.find((quote) => quote._id === id);
   }
 
   useEffect(() => {
