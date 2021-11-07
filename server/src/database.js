@@ -22,15 +22,15 @@ export async function seedDatabase() {
   if (quoteCount === 0) {
     const defaultQuotes = [
       {
-        title: "this is a test quoute 1",
+        title: "I may not be special, but I’m definitely limited edition!",
         author: "Peter"
       },
       {
-        title: "this is a test quoute 2",
+        title: "I'm just here to talk to myself and hope people are listening",
         author: "Bau"
       },
       {
-        title: "this is a test quoute 3",
+        title: "I learn from the mistakes of people who took my advice",
         author: "John"
       }
     ]
