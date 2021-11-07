@@ -1,18 +1,15 @@
 import mongoose from "mongoose";
-//import quoteRoutes from "../routes/quotes";
 
 const quoteSchema = new mongoose.Schema({
-  title: {
+  text: {
     type: String,
     required: true,
   },
-  author: String
+  author: String,
+  likes: Number,
+  comments: [String]
 });
 
 const Quote = mongoose.model("Quote", quoteSchema);
-
-//quoteRoutes.get()
-
-//quoteRoutes.post()
 
 export default Quote;
