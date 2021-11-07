@@ -10,11 +10,18 @@ function Quotes(props) {
                         return (
                             <li key={quote._id}>
                                 <Link to={`/quote/${quote._id}`}>{quote.title}</Link>
+                                <form >
+                                    <label>
+                                        Comment:
+                                        <input />
+                                    </label>
+                                    <input type="submit" value="Submit" />
+                                </form>
                             </li>
                         )
                     })
                 }
-            </ul>
+            </ul><br/>
         </>
     )
 }
