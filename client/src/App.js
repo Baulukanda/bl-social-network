@@ -9,8 +9,6 @@ const API_URL = process.env.REACT_APP_API;
 
 function App() {
   const [quotes, setQuote] = useState([]);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
 
   // API GET all quotes
   function getQuote(id) {
