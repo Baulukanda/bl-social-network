@@ -1,8 +1,7 @@
 import { Router } from "@reach/router";
 import { useEffect, useState } from "react";
-import Quote from "./Quote";
-import Quotes from "./Quotes";
-import AddQuote from "./AddQuote";
+import Quote from "./components/Quote";
+import Quotes from "./components/Quotes";
 const API_URL = process.env.REACT_APP_API;
 
 
@@ -10,76 +9,64 @@ const API_URL = process.env.REACT_APP_API;
 function App() {
   const [quotes, setQuote] = useState([]);
 
-  // API GET all quotes
-  function getQuote(id) {
-    return quotes.find((quote) => quote._id === id);
-  }
-
-  /*
-  // API POST second solution (doesent work)
-  async function handleSubmit(event){
-    event.preventDefault();
-    try {
+  // API POST for adquote
+  function addQuote(text, author) {
+    if (text.length <= 500) {
       const newQuote = {
-        title: event.target.getElement.text.value,
-        author: event.target.getElement.text.value
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "text": text, "author": author }),
       };
-      const response = await fetch(`${API_URL}/quotes`, {
-        method: "Post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newQuote)
-      })
-      const reply = await response.json();
-      console.log(reply);
-
-    } catch(error){
-      this.setState({ error });
-    };
-  }
-  */
-
-  // API POST
-  function addQuote(title, author) {
-    console.log(title, author);
-
-    const data = {
-      title: title,
-      author: author
-    };
-    const postData = async () => {
-      const url = `${API_URL}/quotes`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const reply = await response.json();
-      console.log(reply);
-    };
-    postData();
+      fetch(`${API_URL}/quotes`, newQuote)
+        .then(response => response.json())
+        .then(createdQuote => setQuote([...quotes, createdQuote]));
+    }
   }
 
+
+
+
+  // API PUT for adding likes
+  function countLikes(id) {
+    const countLikes = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify()
+    };
+    const postIndex = quotes.findIndex(post => post._id === id)
+    fetch(`${API_URL}/quotes/${id}/comment`, countLikes)
+      .then(response => response.json())
+      .then(counteLikes => setQuote([...quotes.slice(0, postIndex), counteLikes, ...quotes.slice(postIndex + 1)]));
+  };
+
+  // API PUT for adding comments
+  function addComment(comment, id) {
+    const newComment = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ "comments": comment })
+    };
+    const postIndex = quotes.findIndex(post => post._id === id)
+    fetch(`${API_URL}/quotes/${id}/comment`, newComment)
+      .then(response => response.json())
+      .then(createdComment => setQuote([...quotes.slice(0, postIndex), createdComment, ...quotes.slice(postIndex + 1)]));
+  }
   useEffect(() => {
-    async function getData() {
+    async function getQuoteData() {
       const url = `${API_URL}/quotes`;
       const response = await fetch(url);
       const data = await response.json();
       setQuote(data)
     }
-    getData();
+    getQuoteData();
   }, []);
 
   return (
     <>
-      <h1>List of Quotes</h1>
-      <AddQuote path="/" addQuote={addQuote}></AddQuote>
+
       <Router>
-        <Quotes path="/" data={quotes}></Quotes>
-        <Quote path="/quote/:id" getQuote={getQuote}></Quote>
+        <Quotes path="/" data={quotes} addQuote={addQuote} addComment={addComment} countLikes={countLikes}></Quotes>
+        <Quote path="/quote/:id" addComment={addComment} countLikes={countLikes}></Quote>
       </Router>
     </>
   );

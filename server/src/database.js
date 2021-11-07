@@ -22,16 +22,22 @@ export async function seedDatabase() {
   if (quoteCount === 0) {
     const defaultQuotes = [
       {
-        title: "I may not be special, but I’m definitely limited edition!",
-        author: "Peter"
+        text: "I may not be special, but I’m definitely limited edition!",
+        author: "Peter",
+        likes: 5,
+        comments: []
       },
       {
-        title: "I'm just here to talk to myself and hope people are listening",
-        author: "Bau"
+        text: "I'm just here to talk to myself and hope people are listening",
+        author: "Bau",
+        likes: 19,
+        comments: []
       },
       {
-        title: "I learn from the mistakes of people who took my advice",
-        author: "John"
+        text: "I learn from the mistakes of people who took my advice",
+        author: "John",
+        likes: 90,
+        comments: []
       }
     ]
     console.log("seeding database with %d quotes", defaultQuotes.length);
