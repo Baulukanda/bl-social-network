@@ -17,11 +17,9 @@ function App() {
     getData();
   }, []);
 
-  
   function getQuote(id) {
-    return quotes.find((quote) => quote.id === parseInt(id));;
+    return quotes.find((quote) => quote.id === parseInt(id));
   }
-
 
   // API POST for addQuote
   function addQuote(text, author) {
@@ -79,7 +77,7 @@ function App() {
     <>
       <Router>
         <Quotes path="/" data={quotes} addQuote={addQuote} countLikes={countLikes} addComment={addComment} />
-        <Quote path="/quote/:id" />
+        <Quote path="/quote/:id" getQuote={getQuote}/>
       </Router>
     </>
   );
