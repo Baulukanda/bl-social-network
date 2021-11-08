@@ -25,19 +25,19 @@ export async function seedDatabase() {
         text: "I may not be special, but I’m definitely limited edition!",
         author: "Peter",
         likes: 5,
-        comments: []
+        comments: ["lol", "hahaha we already now"]
       },
       {
         text: "I'm just here to talk to myself and hope people are listening",
         author: "Bau",
         likes: 19,
-        comments: []
+        comments: ["very nice"]
       },
       {
         text: "I learn from the mistakes of people who took my advice",
         author: "John",
         likes: 90,
-        comments: []
+        comments: ["thats not true!!"]
       }
     ]
     console.log("seeding database with %d quotes", defaultQuotes.length);

@@ -3,15 +3,13 @@ import { useState } from "react";
 import AddQuote from "./AddQuote";
 
 function Quotes(props) {
-    let data = props.data;
-    const { addComment } = props;
-    const { countLikes } = props
+    const { data, addComment, countLikes } = props;
     const [comment, setComment] = useState();
 
     return (
         <>
             <h1>List of Quotes</h1>
-            <AddQuote AddQuote={props.addQuote} />
+            <AddQuote addQuote={props.addQuote}></AddQuote>
             <ul>
                 {
                     data.map((quote) => {
@@ -19,18 +17,17 @@ function Quotes(props) {
                             <li key={quote._id}>
                                 <Link to={`/quote/${quote.id}`}>{quote.text}</Link>
                                 <div>
-                                    <p>Likes: {quote.likesCounter}</p>
-                                    <button type="submit" onClick={(event) => {
+                                    <p>Likes: {quote.likes}  <button type="submit" onClick={(event) => {
                                         countLikes(quote._id)
-                                    }}>Like</button>
+                                    }}>Like</button></p>
                                 </div>
-                                {quote.comments.map((comment) => <p>{comment}</p>)}
+                                <p>Comments: {quote.comments}</p>
                                 <form >
                                     <label>
-                                        Comment:
+                                        Add comment:
                                         <input onChange={(event) => setComment(event.target.value)} type="text" />
                                     </label>
-                                    <input type="submit" onClick={(event) => { addComment(comment, quote.id) }} value="send" />
+                                    <button type="submit" onClick={(event) => { addComment(quote.id, comment) }}>Add</button>
                                 </form>
                             </li>
                         )

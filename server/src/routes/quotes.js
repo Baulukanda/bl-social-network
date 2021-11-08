@@ -46,21 +46,21 @@ quoteRoutes.put("/:id/like", async (req, res) => {
     res.json(quote)
   } catch (error) {
     res.status(500);
-    res.json({ error: "Quote could not be updated" });
+    res.json({ error: "like could not be added" });
   }
 });
 
 // Comments
-quoteRoutes.put("/:id/comments", async (req, res) => {
+quoteRoutes.post("/:id/comments", async (req, res) => {
   try {
     const comment = await req.body.comments;
-    const quote = await Quote.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, { returnDocument: `after` });
+    const quote = await Quote.findByIdAndUpdate(req.params.id, { $push: { rcomments: comment } }, { returnDocument: `after` });
     res.json(quote)
-
   } catch (error) {
     res.status(500);
-    res.json({ error: "Quote could not be updated", details: error.toString() });
+    res.json({ error: "Comment could not be added", details: error.toString() });
   }
 });
+
 
 export default quoteRoutes;
